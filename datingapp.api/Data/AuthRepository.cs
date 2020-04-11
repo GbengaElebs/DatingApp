@@ -18,7 +18,7 @@ namespace datingapp.api.Data
             var user= await _context.Users.FirstOrDefaultAsync( x =>x.UserName ==userName);
             if(user ==null)
             return null;
-
+            
             if(!VerifyPasswordHash(password,user.PasswordSalt,user.PasswordHash))
             return null;
 

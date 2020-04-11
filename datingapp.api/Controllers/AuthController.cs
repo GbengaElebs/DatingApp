@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using datingapp.api.Data;
 using datingapp.api.DTO;
 using datingapp.api.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -24,7 +25,7 @@ namespace datingapp.api.Controllers
             this._config=config;
             _repo=repo;
         }
-
+        
         [HttpPost("Register")]
         public async Task<IActionResult> Register(UserForRegister userforRegister)
         {
@@ -43,7 +44,6 @@ namespace datingapp.api.Controllers
             var createdUser= await _repo.Register(UserToCreate,userforRegister.Password);
             return StatusCode(201);
         }
-    
         [HttpPost("Login")]
         public async Task<IActionResult> Login(UserForLogin userForLogin)
         {
