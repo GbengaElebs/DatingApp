@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace datingapp.api.Migrations
 {
-    public partial class ExtentedUserClass : Migration
+    public partial class Tabletweak : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,8 +12,19 @@ namespace datingapp.api.Migrations
                 table: "Users",
                 nullable: true);
 
+            migrationBuilder.AddColumn<string>(
+                name: "Country",
+                table: "Users",
+                nullable: true);
+
             migrationBuilder.AddColumn<DateTime>(
                 name: "Created",
+                table: "Users",
+                nullable: false,
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "DateOfBirth",
                 table: "Users",
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
@@ -33,19 +44,19 @@ namespace datingapp.api.Migrations
                 table: "Users",
                 nullable: true);
 
+            migrationBuilder.AddColumn<string>(
+                name: "KnownAs",
+                table: "Users",
+                nullable: true);
+
             migrationBuilder.AddColumn<DateTime>(
-                name: "LastLogin",
+                name: "LastActive",
                 table: "Users",
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
             migrationBuilder.AddColumn<string>(
                 name: "LookingFor",
-                table: "Users",
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "country",
                 table: "Users",
                 nullable: true);
 
@@ -88,7 +99,15 @@ namespace datingapp.api.Migrations
                 table: "Users");
 
             migrationBuilder.DropColumn(
+                name: "Country",
+                table: "Users");
+
+            migrationBuilder.DropColumn(
                 name: "Created",
+                table: "Users");
+
+            migrationBuilder.DropColumn(
+                name: "DateOfBirth",
                 table: "Users");
 
             migrationBuilder.DropColumn(
@@ -104,15 +123,15 @@ namespace datingapp.api.Migrations
                 table: "Users");
 
             migrationBuilder.DropColumn(
-                name: "LastLogin",
+                name: "KnownAs",
+                table: "Users");
+
+            migrationBuilder.DropColumn(
+                name: "LastActive",
                 table: "Users");
 
             migrationBuilder.DropColumn(
                 name: "LookingFor",
-                table: "Users");
-
-            migrationBuilder.DropColumn(
-                name: "country",
                 table: "Users");
         }
     }

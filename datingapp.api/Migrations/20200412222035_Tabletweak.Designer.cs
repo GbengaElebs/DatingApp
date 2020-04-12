@@ -9,8 +9,8 @@ using datingapp.api.Data;
 namespace datingapp.api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200412143652_ExtentedUserClass")]
-    partial class ExtentedUserClass
+    [Migration("20200412222035_Tabletweak")]
+    partial class Tabletweak
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -55,7 +55,13 @@ namespace datingapp.api.Migrations
                     b.Property<string>("City")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Country")
+                        .HasColumnType("TEXT");
+
                     b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("DateOfBirth")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Gender")
@@ -67,7 +73,10 @@ namespace datingapp.api.Migrations
                     b.Property<string>("Introduction")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("LastLogin")
+                    b.Property<string>("KnownAs")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("LastActive")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LookingFor")
@@ -80,9 +89,6 @@ namespace datingapp.api.Migrations
                         .HasColumnType("BLOB");
 
                     b.Property<string>("UserName")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("country")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
