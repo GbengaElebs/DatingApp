@@ -13,6 +13,7 @@ import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from '@kolkov
 export class MemberDetailComponent implements OnInit {
 
   user: User;
+  live = true;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
   constructor(private userService: UserService, private alertify: AlertifyService,
