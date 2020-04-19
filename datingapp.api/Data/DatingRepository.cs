@@ -25,6 +25,11 @@ namespace datingapp.api.Data
             _context.Remove(entity);
         }
 
+        public async Task<Like> GetLike(int userId, int recipientId)
+        {
+            return await _context.Likes.FirstOrDefaultAsync(u => u.LikerId == userId && u.LikeeId == recipientId);
+        }
+
         public async Task<Photos> GetMainPhotoForUser(int userId)
         {
             var getmainphotoforuser= await _context.photos.Where(p  => p.UserId == userId ).FirstOrDefaultAsync(p => p.IsMain);
@@ -53,7 +58,18 @@ namespace datingapp.api.Data
             user = user.Where(u => u.Id != userParams.UserId);
 
             user = user.Where(u => u.Gender == userParams.Gender);
-
+            
+            if(userParams.Liker)
+            {
+                var userlikes = await GetUserLikes(userParams.UserId, userParams.Liker);
+                user= user.Where(u => userlikes.Contains(u.Id));
+                
+            }
+            if(userParams.Likee)
+            {
+                var userlikees = await GetUserLikes(userParams.UserId, userParams.Liker);
+                user= user.Where(u => userlikees.Contains(u.Id));
+            }
             if(userParams.MinAge !=18 || userParams.MaxAge !=99)
             {
                 var minDob = DateTime.Today.AddYears(-userParams.MaxAge -1);
@@ -77,6 +93,22 @@ namespace datingapp.api.Data
             return await PagedList<User>.CreateAsync(user, userParams.PageNumber, userParams.PageSize);
         }
 
+        private async Task<IEnumerable<int>> GetUserLikes(int id, bool likers)
+        {
+            var user = await _context.Users.Include(x => x.Liker)
+            .Include(x => x.Likee)
+            .FirstOrDefaultAsync(u => u.Id == id);
+
+            if(likers)
+            {
+                return user.Liker.Where(u => u.LikeeId == id).Select(i => i.LikerId);
+            }
+            else
+            {
+                return user.Likee.Where(u => u.LikerId == id).Select(i => i.LikeeId);
+
+            }
+        }
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync() > 0;
