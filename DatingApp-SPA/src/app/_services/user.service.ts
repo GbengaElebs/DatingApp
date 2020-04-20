@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { User } from '../_models/user';
 import { PaginationResult } from '../_models/pagination';
 import { map } from 'rxjs/operators';
+import { Message } from '../_models/message';
 
 
 
@@ -76,4 +77,32 @@ deletePhoto(userId: number, id: number ) {
     return this.http.post(this.baseUrl + 'users/' + id + '/like/' + recipientId, {})
   }
 
+  getMessages(id: number, page?, itemsperPage?, messageContainer?){
+    const paginatedResult: PaginationResult<Message[]> = new PaginationResult<Message[]>();
+
+    let params = new HttpParams();
+
+    params = params.append('MessageContainer', messageContainer);
+
+    if (page != null && itemsperPage != null)
+    {
+      params = params.append('pageNumber', page);
+      params = params.append('pageSize', itemsperPage);
+    }
+
+    return this.http.get<Message[]>(this.baseUrl + id + '/messages', {observe: 'response', params})
+        .pipe(
+          map(response => {
+            paginatedResult.result = response.body;
+            if (response.headers.get('Pagination') != null){
+              paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+            }
+            return paginatedResult;
+          })
+        );
+  }
+
+  getMessageThread(id: number, recipientId: number){
+      return this.http.get<Message[]>(this.baseUrl +  id + '/messages/thread/' + recipientId);
+  }
 }
