@@ -30,7 +30,7 @@
               <small class="text-muted">
                 <span class="fa fa-clock-o">{{message.dateSent | timeago}}</span>
                 <span *ngIf="!message.isRead" class="text-danger">(unread)</span>
-                <span *ngIf="message.isRead" class="text-success">(Read  {{message.dateSent | timeago}})</span>
+                <span *ngIf="message.isRead" class="text-success">(Read  {{message.dateRead | timeago}})</span>
               </small>
               <strong class="primary-font float-right">{{message.senderKnownAs}}</strong>
             </div>
@@ -42,11 +42,15 @@
     </ul>
   </div>
   <div class="card-footer">
-    <form action="">
+    <form #messageForm="ngForm" (ngSubmit)="messageForm.valid && sendMessage()">
       <div>
-        <input type="text" class="form-control input-sm" placeholder="Send a Private Message">
+        <input type="text" 
+        [(ngModel)]="newMessage.content"
+        name="content"
+        required
+        class="form-control input-sm" placeholder="Send a Private Message">
         <div class="input-group-append">
-            <button class="btn btn-primary">Send</button>
+            <button class="btn btn-primary" [disabled]="!messageForm.valid">Send</button>
         </div>
       </div>
     </form>
