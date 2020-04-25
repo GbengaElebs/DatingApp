@@ -9,8 +9,8 @@ using datingapp.api.Data;
 namespace datingapp.api.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200424142836_MySqlInitial")]
-    partial class MySqlInitial
+    [Migration("20200425000818_newmodel")]
+    partial class newmodel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

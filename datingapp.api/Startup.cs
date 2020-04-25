@@ -46,7 +46,7 @@ namespace datingapp.api
         {
             services.AddDbContext<DataContext>(x => {
             x.UseLazyLoadingProxies();
-            x.UseMySql(Configuration.GetConnectionString("DefaultConnection"));
+            x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
 
             ConfigureServices(services);
@@ -89,23 +89,26 @@ namespace datingapp.api
             }
             else
             {
-                app.UseExceptionHandler(builder => {
+                // app.UseExceptionHandler(builder => {
                     
-                    builder.Run(async context => {
-                        context.Response.StatusCode =(int)HttpStatusCode.InternalServerError;
+                //     builder.Run(async context => {
+                //         context.Response.StatusCode =(int)HttpStatusCode.InternalServerError;
 
-                        var error =context.Features.Get<IExceptionHandlerFeature>();
-                        if (error !=null)
-                        {
-                            context.Response.AddApplicationError(error.Error.Message);
-                            await context.Response.WriteAsync(error.Error.Message);
-                        }
-                    });
+                //         var error =context.Features.Get<IExceptionHandlerFeature>();
+                //         if (error !=null)
+                //         {
+                //             context.Response.AddApplicationError(error.Error.Message);
+                //             await context.Response.WriteAsync(error.Error.Message);
+                //         }
+                //     });
                     
-                    });
+                //     });
+                app.UseHsts();
             }
 
-            //app.UseHttpsRedirection();
+            
+            app.UseDeveloperExceptionPage();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
