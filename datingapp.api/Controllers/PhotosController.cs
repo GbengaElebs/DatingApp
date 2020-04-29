@@ -14,7 +14,6 @@ using Microsoft.Extensions.Options;
 
 namespace datingapp.api.Controllers
 {
-    [Authorize]
     [Route("users/{userId}/photos")]
     [ApiController]
     public class PhotosController: ControllerBase

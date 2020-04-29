@@ -13,7 +13,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace datingapp.api.Controllers
 {
     [ServiceFilter(typeof(LogUserActivity))]
-    [Authorize]
     [Route("[controller]")]
     [ApiController]
     public class UsersController : ControllerBase

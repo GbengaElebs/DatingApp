@@ -35,6 +35,13 @@ import { ButtonsModule } from 'ngx-bootstrap/buttons';
 import { ListResolver } from './_resolver/lists.resolver';
 import { MessagesResolver } from './_resolver/messages.resolver';
 import { MemberMessagesComponent } from './members/member-messages/member-messages.component';
+import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
+import { HasSpecificRoleModule } from './HasSpecificRole/HasSpecificRole.module';
+import { PhotoManagementComponent } from './admin/photo-management/photo-management.component';
+import { UserManagementComponent } from './admin/user-management/user-management.component';
+import { AdminService } from './_services/admin.service';
+import { RolesModalComponent } from './admin/roles-modal/roles-modal.component';
+import { ModalModule } from 'ngx-bootstrap/modal';
 export function tokenGetter() {
    return localStorage.getItem('token');
 }
@@ -53,7 +60,11 @@ export function tokenGetter() {
       MemberDetailComponent,
       MemberEditComponent,
       PhotoEditorComponent,
-      MemberMessagesComponent
+      MemberMessagesComponent,
+      AdminPanelComponent,
+      PhotoManagementComponent,
+      UserManagementComponent,
+      RolesModalComponent
    ],
    imports: [
       BrowserModule,
@@ -69,7 +80,9 @@ export function tokenGetter() {
       ButtonsModule.forRoot(),
       RouterModule.forRoot(appRoutes),
       NgxGalleryModule,
+      HasSpecificRoleModule,
       FileUploadModule,
+      ModalModule.forRoot(),
       JwtModule.forRoot({
          config: {
             tokenGetter,
@@ -86,7 +99,11 @@ export function tokenGetter() {
       MemberEditResolver,
       ListResolver,
       PreventUnsavedChanges,
-      MessagesResolver
+      MessagesResolver,
+      AdminService
+   ],
+   entryComponents: [
+      RolesModalComponent
    ],
    bootstrap: [
       AppComponent

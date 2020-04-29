@@ -1,13 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, NgModule } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import { AlertifyService } from '../_services/alertify.service';
 import { Router } from '@angular/router';
+import { HasRoleDirective } from '../_directives/HasRole.directive';
+import { AppModule } from '../app.module';
+import { HasSpecificRoleModule } from '../HasSpecificRole/HasSpecificRole.module';
+import { CommonModule } from '@angular/common';
+
+
 
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
   styleUrls: ['./nav.component.css'],
 })
+
 export class NavComponent implements OnInit {
   model: any = {};
   photoUrl: string;

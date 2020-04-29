@@ -10,7 +10,6 @@ using Microsoft.Extensions.Logging;
 
 namespace datingapp.api.Controllers
 {
-    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class ValuesController : ControllerBase
@@ -21,7 +20,7 @@ namespace datingapp.api.Controllers
             _context = context;
 
         }
-        [AllowAnonymous]
+        [Authorize (Roles= "Admin")]
         [HttpGet]
         public async Task<IActionResult> GetValues()
         {
