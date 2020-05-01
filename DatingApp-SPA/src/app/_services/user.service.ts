@@ -6,6 +6,7 @@ import { User } from '../_models/user';
 import { PaginationResult } from '../_models/pagination';
 import { map } from 'rxjs/operators';
 import { Message } from '../_models/message';
+import { Photo } from '../_models/photo';
 
 
 
@@ -61,6 +62,9 @@ getUser(id): Observable<User> {
   return this.http.get<User>(this.baseUrl + 'Users/' + id );
 }
 
+getUserEdit(id): Observable<User> {
+  return this.http.get<User>(this.baseUrl + 'Users/' + 'GetUserEdit/' + id );
+}
 updateuser(id: number, user: User) {
   return this.http.put(this.baseUrl + 'Users/' + id, user);
 }
@@ -117,6 +121,21 @@ deletePhoto(userId: number, id: number ) {
   markAsRead(userId: number, messageId: number){
     return this.http.post(this.baseUrl + userId + '/messages/' + messageId + '/read', {})
     .subscribe();
+
+  }
+
+  getPhotoForApproval(){
+    return this.http.get<Photo[]>(this.baseUrl + 'admin/' + 'photosForModeration/');
+
+  }
+
+  ApprovePhotosForUser(publiccId: string){
+    return this.http.post(this.baseUrl + 'admin/' + 'ApprovePhotosForUser/' + publiccId, {});
+
+  }
+
+  disapprovePhotosForUser(publiccId: string){
+    return this.http.delete(this.baseUrl + 'admin/' + 'DisapprovePhotoForUser/' + publiccId, {});
 
   }
 }

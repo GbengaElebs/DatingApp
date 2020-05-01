@@ -16,6 +16,7 @@
         {
           "url": "https://randomuser.me/api/portraits/women/54.jpg",
           "isMain": true,
+          "isApproved": true,
           "description": "Cupidatat voluptate ullamco sint mollit elit occaecat incididunt occaecat."
         }
       ]
@@ -37,6 +38,7 @@
         {
           "url": "https://randomuser.me/api/portraits/women/50.jpg",
           "isMain": true,
+          "isApproved": true,
           "description": "Sint occaecat ex aliquip sunt eiusmod."
         }
       ]
@@ -58,6 +60,7 @@
         {
           "url": "https://randomuser.me/api/portraits/women/79.jpg",
           "isMain": true,
+          "isApproved": true,
           "description": "Anim fugiat laborum nulla id est officia."
         }
       ]
@@ -79,6 +82,7 @@
         {
           "url": "https://randomuser.me/api/portraits/women/33.jpg",
           "isMain": true,
+          "isApproved": true,
           "description": "Ex consectetur laboris veniam est."
         }
       ]
@@ -100,6 +104,7 @@
         {
           "url": "https://randomuser.me/api/portraits/women/19.jpg",
           "isMain": true,
+          "isApproved": true,
           "description": "Minim excepteur velit nulla laborum cupidatat eu ea esse."
         }
       ]
@@ -121,6 +126,7 @@
         {
           "url": "https://randomuser.me/api/portraits/women/99.jpg",
           "isMain": true,
+          "isApproved": true,
           "description": "Sit sit in deserunt dolor fugiat laboris sit magna irure consequat."
         }
       ]
@@ -142,6 +148,7 @@
         {
           "url": "https://randomuser.me/api/portraits/women/81.jpg",
           "isMain": true,
+          "isApproved": true,
           "description": "Consequat consectetur sint non esse tempor incididunt eiusmod."
         }
       ]
@@ -163,6 +170,7 @@
             {
               "url": "https://randomuser.me/api/portraits/men/25.jpg",
               "isMain": true,
+              "isApproved": true,
               "description": "Sunt est labore et consequat pariatur nulla eiusmod voluptate labore voluptate minim et minim qui."
             }
           ]
@@ -184,6 +192,7 @@
             {
               "url": "https://randomuser.me/api/portraits/men/86.jpg",
               "isMain": true,
+              "isApproved": true,
               "description": "Sint magna consectetur mollit est."
             }
           ]
@@ -205,6 +214,7 @@
             {
               "url": "https://randomuser.me/api/portraits/men/16.jpg",
               "isMain": true,
+              "isApproved": true,
               "description": "Nulla deserunt magna elit commodo irure excepteur aliquip fugiat ad voluptate est occaecat."
             }
           ]
@@ -226,6 +236,7 @@
             {
               "url": "https://randomuser.me/api/portraits/men/60.jpg",
               "isMain": true,
+              "isApproved": true,
               "description": "Ea duis Lorem sint voluptate magna eu aute magna pariatur sint."
             }
           ]
@@ -247,6 +258,7 @@
             {
               "url": "https://randomuser.me/api/portraits/men/84.jpg",
               "isMain": true,
+              "isApproved": true,
               "description": "In deserunt est laboris ut ex exercitation reprehenderit consequat proident ad ex consequat."
             }
           ]
@@ -268,6 +280,7 @@
             {
               "url": "https://randomuser.me/api/portraits/men/1.jpg",
               "isMain": true,
+              "isApproved": true,
               "description": "Deserunt mollit qui do est fugiat Lorem dolore cillum nostrud qui sint ipsum."
             }
           ]
@@ -289,6 +302,7 @@
             {
               "url": "https://randomuser.me/api/portraits/men/26.jpg",
               "isMain": true,
+              "isApproved": true,
               "description": "Mollit sint nulla sunt exercitation."
             }
           ]

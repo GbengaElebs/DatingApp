@@ -44,14 +44,15 @@ namespace datingapp.api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateMessage (int userId, MessageForCreationDto messageForCreationDto)
         {
-            var sender = await _repo.GetUser(userId);
 
             if(userId != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
                 return Unauthorized();
+            var sender = await _repo.GetUser(userId,true);
+
 
             messageForCreationDto.SenderId = userId;
 
-            var recipient = await _repo.GetUser(messageForCreationDto.RecipientId);
+            var recipient = await _repo.GetUser(messageForCreationDto.RecipientId, true);
 
             if(recipient == null)
                 return BadRequest("could not find user");

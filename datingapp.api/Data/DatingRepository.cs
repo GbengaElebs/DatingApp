@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using datingapp.api.Helpers;
 using datingapp.api.Models;
 using Microsoft.EntityFrameworkCore;
@@ -11,8 +12,10 @@ namespace datingapp.api.Data
     public class DatingRepository : IDatingRepository
     {
         private readonly DataContext _context;
-        public DatingRepository(DataContext context)
+        private readonly IMapper _mapper;
+        public DatingRepository(DataContext context, IMapper mapper)
         {
+            _mapper = mapper;
             _context = context;
         }
         public void Add<T>(T entity) where T : class
@@ -32,61 +35,67 @@ namespace datingapp.api.Data
 
         public async Task<Photos> GetMainPhotoForUser(int userId)
         {
-            var getmainphotoforuser= await _context.photos.Where(p  => p.UserId == userId ).FirstOrDefaultAsync(p => p.IsMain);
+            var getmainphotoforuser = await _context.photos.Where(p => p.UserId == userId).FirstOrDefaultAsync(p => p.IsMain);
             return getmainphotoforuser;
         }
 
         public async Task<Photos> GetPhoto(int id)
         {
 
-            var photo= await _context.photos.FirstOrDefaultAsync(p =>p.Id == id);
+            var photo = await _context.photos.IgnoreQueryFilters().FirstOrDefaultAsync(p => p.Id == id);
 
             return photo;
         }
 
-        public async Task<User> GetUser(int id)
+        public async Task<User> GetUser(int id, bool isCurrentUser)
         {
-            var user= await _context.Users.FirstOrDefaultAsync(u => u.Id ==id);
+            var query= _context.Users.Include(p => p.Photos).AsQueryable();
+
+            if(isCurrentUser)
+                query = query.IgnoreQueryFilters();
+
+            var user = await query.FirstOrDefaultAsync(u => u.Id == id);
             return user;
         }
+        
 
         public async Task<PagedList<User>> GetUsers(UserParams userParams)
         {
-            var user=_context.Users
+            var user = _context.Users
             .OrderByDescending(u => u.LastActive).AsQueryable();
 
             user = user.Where(u => u.Id != userParams.UserId);
 
             user = user.Where(u => u.Gender == userParams.Gender);
-            
-            if(userParams.Liker)
+
+            if (userParams.Liker)
             {
                 var userlikes = await GetUserLikes(userParams.UserId, userParams.Liker);
-                user= user.Where(u => userlikes.Contains(u.Id));
-                
+                user = user.Where(u => userlikes.Contains(u.Id));
+
             }
-            if(userParams.Likee)
+            if (userParams.Likee)
             {
                 var userlikees = await GetUserLikes(userParams.UserId, userParams.Liker);
-                user= user.Where(u => userlikees.Contains(u.Id));
+                user = user.Where(u => userlikees.Contains(u.Id));
             }
-            if(userParams.MinAge !=18 || userParams.MaxAge !=99)
+            if (userParams.MinAge != 18 || userParams.MaxAge != 99)
             {
-                var minDob = DateTime.Today.AddYears(-userParams.MaxAge -1);
-                var maxDob= DateTime.Today.AddYears(-userParams.MinAge);
+                var minDob = DateTime.Today.AddYears(-userParams.MaxAge - 1);
+                var maxDob = DateTime.Today.AddYears(-userParams.MinAge);
                 user = user.Where(u => u.DateOfBirth >= minDob && u.DateOfBirth <= maxDob);
             }
 
-            if(!string.IsNullOrEmpty(userParams.OrderBy))
+            if (!string.IsNullOrEmpty(userParams.OrderBy))
             {
-                switch(userParams.OrderBy)
+                switch (userParams.OrderBy)
                 {
                     case "created":
                         user = user.OrderByDescending(u => u.Created);
-                    break;
+                        break;
                     default:
-                        user =user.OrderByDescending(u => u.LastActive);
-                    break;
+                        user = user.OrderByDescending(u => u.LastActive);
+                        break;
                 }
             }
 
@@ -97,7 +106,7 @@ namespace datingapp.api.Data
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
-            if(likers)
+            if (likers)
             {
                 return user.Liker.Where(u => u.LikeeId == id).Select(i => i.LikerId);
             }
@@ -122,16 +131,16 @@ namespace datingapp.api.Data
             var messages = _context.Messages
             .AsQueryable();
 
-            switch(messageParams.MessageContainer)
+            switch (messageParams.MessageContainer)
             {
                 case "Inbox":
                     messages = messages.Where(u => u.RecipientId == messageParams.UserId && u.RecipientDeleted == false);
                     break;
-                    case "Outbox":
-                    messages = messages.Where(u =>u.SenderId == messageParams.UserId && u.SenderDeleted == false);
+                case "Outbox":
+                    messages = messages.Where(u => u.SenderId == messageParams.UserId && u.SenderDeleted == false);
                     break;
 
-                    default:
+                default:
                     messages = messages.Where(u => u.RecipientId == messageParams.UserId && u.IsRead == false && u.RecipientDeleted == false
                     );
 
@@ -147,11 +156,29 @@ namespace datingapp.api.Data
 
         public async Task<IEnumerable<Message>> GetMessageThread(int userId, int recipientId)
         {
-            var messages = await _context.Messages.Where(m => m.RecipientId == userId &&m.RecipientDeleted == false && m.SenderId == recipientId 
+            var messages = await _context.Messages.Where(m => m.RecipientId == userId && m.RecipientDeleted == false && m.SenderId == recipientId
             || m.RecipientId == recipientId && m.SenderId == userId && m.SenderDeleted == false).OrderBy(m => m.DateSent)
             .ToListAsync();
 
             return messages;
         }
+
+        public async Task<IEnumerable<Photos>> GetPhotosforApproval()
+        {
+
+            var photo = await _context.photos.IgnoreQueryFilters().Where(p => p.IsApproved == false).ToListAsync();
+
+            return photo;
+        }
+
+        public async Task<Photos> GetPhotoforApproval(string PubliccId)
+        {
+
+            var userPhoto = await _context.photos.IgnoreQueryFilters().Where(p => p.PubliccId == PubliccId).FirstOrDefaultAsync();
+
+            return userPhoto;
+        }
+
+
     }
 }

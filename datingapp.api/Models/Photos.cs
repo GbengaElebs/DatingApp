@@ -14,6 +14,8 @@ namespace datingapp.api.Models
 
         public bool IsMain {get; set;}
 
+        public bool IsApproved {get; set;}
+
         public bool PublicId {get; set;}
 
         public string PubliccId {get; set;}
